@@ -1,55 +1,44 @@
-import React from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Message } from '../Message';
 
 import { Container, App, TextField, Form } from './styles';
 
+interface MessageProps{
+  message: string;
+  name: string
+}
+
 export const Main: React.FC = () => {
+  const [messageList, setMessageList] = useState<MessageProps[]>([])
+  const [message, setMessage] = useState('')
+
+  const changeMessageState = (newMessage: string) =>  setMessage(newMessage)
+
+  const addMessageList = () => setMessageList([...messageList,{message, name:'marcos'}] )
+
   return (
     <Container>
       <div className="container">
         <App>
           <TextField>
-            <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
+          {messageList.map(message => (
+              <Message 
+              key={message.message}
+              message={message.message}
+              name={message.name}
             />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-               <Message 
-              message='minha mensageeeeeeemmmmm'
-              name='marcos'
-            />
-      
+          ))}
+
+
           </TextField>
 
 
           <Form>
-            <textarea 
+            <textarea
               placeholder='digite sua mensagem aqui'
+              onChange={event => changeMessageState(event.target.value)}
             />
-            <button type='button'>
+            <button onClick={addMessageList} type='button'>
               enviar
             </button>
           </Form>
